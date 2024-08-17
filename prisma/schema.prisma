@@ -1,0 +1,104 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id        String       @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  fullName  String
+  clerkId   String       @unique
+  type      AccountTypes
+  createdAt DateTime     @default(now())
+  updatedAt DateTime     @updatedAt
+  balance   Int          @default(0)
+
+  subscription Subscription?
+  sponsered    Boolean?      @default(false)
+
+  // Section Relations
+  sections  Section[] @relation("TeacherSections")
+  section   Section?  @relation("StudentSection", fields: [sectionId], references: [id])
+  sectionId String?   @db.Uuid
+
+  // Company Relations //
+
+  //Owning a company
+  companyRole  Roles?
+  ownedCompany Company? @relation("ownedCompany")
+
+  //Member of company
+  company   Company? @relation("memberCompany", fields: [companyId], references: [id])
+  companyId String?  @db.Uuid
+}
+
+model Company {
+  id          String   @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  name        String
+  description String?
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+  balance     Int      @default(0)
+  valuation   Int      @default(0)
+  investments Int      @default(0)
+
+  // User Relations //
+
+  //Owner relations
+  owner   User   @relation("ownedCompany", fields: [ownerId], references: [id])
+  ownerId String @unique @db.Uuid
+
+  //Member relations
+  members User[] @relation("memberCompany")
+
+  //Section relations
+  section   Section @relation("section", fields: [sectionId], references: [id])
+  sectionId String  @db.Uuid
+}
+
+model Section {
+  id        String @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  classCode String @unique
+  name      String
+
+  // User Relations
+  teacher   User   @relation("TeacherSections", fields: [teacherId], references: [id])
+  teacherId String @db.Uuid
+  students  User[] @relation("StudentSection")
+
+  //Company Relations
+  companies Company[] @relation("section")
+}
+
+model Subscription {
+  id     String  @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  plan   Plans   @default(STUDENT)
+  User   User?   @relation(fields: [userId], references: [id], onDelete: Cascade)
+  userId String? @unique @db.Uuid
+}
+
+enum Plans {
+  STUDENT
+  FREE
+  PRO
+  UNLIMITED
+  INVESTOR
+}
+
+enum AccountTypes {
+  INSTRUCTOR
+  STUDENT
+  INVESTOR
+}
+
+enum Roles {
+  CEO
+  CFO
+  COO
+  CTO
+  CMO
+  CIO
+}
