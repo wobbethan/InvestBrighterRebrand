@@ -41,7 +41,7 @@ export const onCompleteUserRegistration = async (
       };
     }
   } catch (error) {
-    return { status: 400, message: error };
+    return { status: 400 };
   }
 };
 

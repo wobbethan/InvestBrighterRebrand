@@ -1,6 +1,7 @@
 "use client";
 import { useAuthContextHook } from "@/context/use-auth-context";
 import { cn } from "@/lib/utils";
+import clsx from "clsx";
 import React from "react";
 
 type Props = {};
@@ -8,7 +9,12 @@ type Props = {};
 const HighlightBar = (props: Props) => {
   const { currentStep, numSteps } = useAuthContextHook();
   return (
-    <div className={`grid grid-cols-${numSteps} gap-3`}>
+    <div
+      className={clsx(
+        `grid gap-3`,
+        numSteps === 4 ? "grid-cols-4" : "grid-cols-3"
+      )}
+    >
       {Array.from({ length: numSteps }, (_, index) => (
         <Bar key={index} active={index < currentStep} />
       ))}
@@ -21,7 +27,7 @@ const Bar = ({ active }: { active: boolean }) => {
     <div
       className={cn(
         "rounded-full h-2 col-span-1",
-        active ? "bg-orange" : "bg-gray-300"
+        active ? "bg-polynesianBlue" : "bg-gray-300"
       )}
     />
   );
