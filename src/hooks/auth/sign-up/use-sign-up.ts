@@ -1,14 +1,13 @@
 "use client";
-import { zodResolver } from "@hookform/resolvers/zod";
-import { useState } from "react";
-import { useSignUp } from "@clerk/nextjs";
-import { useRouter } from "next/navigation";
-import { useForm } from "react-hook-form";
-import { toast } from "sonner";
 import {
   UserRegistrationProps,
   UserRegistrationSchema,
 } from "@/schemas/auth.schema";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { useSignUp } from "@clerk/nextjs";
+import { useRouter } from "next/navigation";
+import { useState } from "react";
+import { useForm } from "react-hook-form";
 import { onCompleteUserRegistration } from "@/actions/auth/auth";
 
 export const useSignUpForm = () => {
@@ -19,6 +18,7 @@ export const useSignUpForm = () => {
     resolver: zodResolver(UserRegistrationSchema),
     mode: "onChange",
   });
+
   const onGenerateOTP = async (
     email: string,
     password: string,
@@ -36,11 +36,10 @@ export const useSignUpForm = () => {
 
       onNext((prev) => prev + 1);
     } catch (error: any) {
-      toast("Account has been created", {
-        description: "You will now be redirected to the dashboard",
-      });
+      console.log(error);
     }
   };
+
   const onHandleSubmit = methods.handleSubmit(
     async (values: UserRegistrationProps) => {
       if (!isLoaded) return;
@@ -74,16 +73,9 @@ export const useSignUpForm = () => {
           }
 
           if (registered?.status == 400) {
-            toast("Error", {
-              description: "Something went wrong!",
-            });
           }
         }
-      } catch (error: any) {
-        toast("Error", {
-          description: error.errors[0].longMessage,
-        });
-      }
+      } catch (error: any) {}
     }
   );
   return {

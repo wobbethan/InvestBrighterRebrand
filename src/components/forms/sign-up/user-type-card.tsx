@@ -35,7 +35,7 @@ const UserTypeCard = ({
       <Card
         className={cn(
           "w-full cursor-pointer",
-          userType == value && "border-orange"
+          userType == value && "border-polynesianBlue"
         )}
         onClick={() => setNumSteps(numSteps)}
       >
@@ -44,18 +44,18 @@ const UserTypeCard = ({
             <Card
               className={cn(
                 "flex justify-center p-3",
-                userType == value && "border-orange"
+                userType == value && "border-polynesianBlue"
               )}
             >
               <User
                 size={30}
                 className={cn(
-                  userType == value ? "text-orange" : "text-gray-400"
+                  userType == value ? "text-polynesianBlue" : "text-gray-400"
                 )}
               ></User>
             </Card>
             <div className="">
-              <CardDescription className="text-iridium">
+              <CardDescription className="text-polynesianBlue">
                 {title}
               </CardDescription>
               <CardDescription className="text-gray-400">
@@ -67,7 +67,7 @@ const UserTypeCard = ({
             <div
               className={cn(
                 "w-4 h-4 rounded-full",
-                userType == value ? "bg-orange" : "bg-transparent"
+                userType == value ? "bg-polynesianBlue" : "bg-transparent"
               )}
             >
               <Input

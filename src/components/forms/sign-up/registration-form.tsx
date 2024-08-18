@@ -6,6 +6,7 @@ import TypeSelectionForm from "./type-selection-form";
 import dynamic from "next/dynamic";
 import { Spinner } from "@/components/spinner";
 import { $Enums } from "@prisma/client";
+import SectionSelect from "./section-selection";
 
 const DetailForm = dynamic(() => import("./account-details-form"), {
   ssr: false,
@@ -46,6 +47,8 @@ const RegistrationFormStep = (props: Props) => {
       return <DetailForm errors={errors} register={register} />;
     case 3:
       return <OTPForm onOTP={onOTP} setOTP={setOnOTP} />;
+    case 4:
+      return <SectionSelect />;
   }
 
   return <div>RegistrationFormStep</div>;

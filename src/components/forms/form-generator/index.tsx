@@ -18,6 +18,7 @@ type Props = {
   lines?: number;
   form?: string;
   defaultValue?: string;
+  email?: boolean;
 };
 
 const FormGenerator = ({
@@ -46,6 +47,11 @@ const FormGenerator = ({
             defaultValue={defaultValue}
             {...register(name)}
             className="focus-visible:ring-transparent"
+            onInput={(e) => {
+              if (type === "email") {
+                e.currentTarget.value = e.currentTarget.value.toLowerCase();
+              }
+            }}
           />
           <ErrorMessage
             errors={errors}

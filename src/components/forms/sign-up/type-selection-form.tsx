@@ -42,7 +42,7 @@ const TypeSelectionForm = ({ register, userType, setUserType }: Props) => {
         value={$Enums.AccountTypes.INVESTOR}
         title="I am an Entrepreneur"
         text="Looking for my next venture"
-        numSteps={2}
+        numSteps={3}
       />
     </>
   );

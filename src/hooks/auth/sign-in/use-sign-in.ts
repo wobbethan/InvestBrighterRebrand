@@ -36,7 +36,7 @@ export const useSignInForm = () => {
         setLoading(false);
         if (error.errors[0].code === "form_password_incorrect")
           toast("Error", {
-            description: "Incorrect account information!",
+            description: "There was an issue signing into your account",
           });
       }
     }
