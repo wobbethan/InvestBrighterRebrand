@@ -15,7 +15,7 @@ const LoginForm = (props: Props) => {
     <>
       <h2 className="text-gravel md:text-4xl font-bold">Login</h2>
       <p className="text-iridium md:text-sm">
-        You will receive a one time password
+        Enter your information to log in to your account
       </p>
       {USER_LOGIN_FORM.map((field) => (
         <FormGenerator

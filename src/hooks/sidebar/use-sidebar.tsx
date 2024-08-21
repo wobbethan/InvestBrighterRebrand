@@ -6,6 +6,7 @@ import { useEffect, useState } from "react";
 import { useClerk } from "@clerk/nextjs";
 
 const useSideBar = () => {
+  // const user =
   const [expand, setExpand] = useState<boolean | undefined>(undefined);
   const router = useRouter();
   const pathname = usePathname();

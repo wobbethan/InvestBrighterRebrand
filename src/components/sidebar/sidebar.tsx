@@ -2,9 +2,11 @@
 import { cn } from "@/lib/utils";
 import React from "react";
 
-import useSideBar from "@/context/use-sidebar";
+import useSideBar from "@/hooks/sidebar/use-sidebar";
 import MaxMenu from "./maximized-menu";
 import { MinMenu } from "./minimized-menu";
+import { $Enums } from "@prisma/client";
+import { useUserContextHook } from "@/context/user-info-context";
 
 type Props = {};
 

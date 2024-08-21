@@ -8,13 +8,46 @@ import SettingsIcon from "@/icons/settings-icon";
 import StarIcon from "@/icons/star-icon";
 import TimerIcon from "@/icons/timer-icon";
 
-type SIDE_BAR_MENU_PROPS = {
+export type SIDE_BAR_MENU_PROPS = {
   label: string;
   icon: JSX.Element;
   path: string;
 };
 
-export const SIDE_BAR_MENU: SIDE_BAR_MENU_PROPS[] = [
+export const INSTRUCTOR_SIDE_BAR_MENU: SIDE_BAR_MENU_PROPS[] = [
+  {
+    label: "Dashboard",
+    icon: <DashboardIcon />,
+    path: "dashboard",
+  },
+  {
+    label: "Conversations",
+    icon: <ChatIcon />,
+    path: "conversation",
+  },
+  {
+    label: "Investment Rounds",
+    icon: <IntegrationsIcon />,
+    path: "integration",
+  },
+  {
+    label: "Round Profiles",
+    icon: <CalIcon />,
+    path: "appointment",
+  },
+  {
+    label: "Settings",
+    icon: <SettingsIcon />,
+    path: "settings",
+  },
+  {
+    label: "Announcements",
+    icon: <EmailIcon />,
+    path: "email-marketing",
+  },
+];
+
+export const STUDENT_SIDE_BAR_MENU: SIDE_BAR_MENU_PROPS[] = [
   {
     label: "Dashboard",
     icon: <DashboardIcon />,

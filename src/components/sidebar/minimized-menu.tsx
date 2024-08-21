@@ -1,11 +1,17 @@
-import { SIDE_BAR_MENU } from "@/constants/menu";
+import {
+  INSTRUCTOR_SIDE_BAR_MENU,
+  SIDE_BAR_MENU_PROPS,
+  STUDENT_SIDE_BAR_MENU,
+} from "@/constants/menu";
 
-import React from "react";
+import React, { useState } from "react";
 
 import { LogOut, MonitorSmartphone } from "lucide-react";
 import { MenuLogo } from "@/icons/menu-logo";
 import MenuItem from "./menu-item";
-import DomainMenu from "./domain-menu";
+import EntityMenu from "./entity-menu";
+import { $Enums } from "@prisma/client";
+import { useUserContextHook } from "@/context/user-info-context";
 
 type MinMenuProps = {
   onShrink(): void;
@@ -14,6 +20,13 @@ type MinMenuProps = {
 };
 
 export const MinMenu = ({ onShrink, current, onSignOut }: MinMenuProps) => {
+  const { user } = useUserContextHook();
+  let SIDE_BAR_MENU = STUDENT_SIDE_BAR_MENU;
+  if (user.type === $Enums.AccountTypes.INSTRUCTOR) {
+    SIDE_BAR_MENU = INSTRUCTOR_SIDE_BAR_MENU;
+  } else if (user.type === $Enums.AccountTypes.INVESTOR) {
+    SIDE_BAR_MENU = STUDENT_SIDE_BAR_MENU;
+  }
   return (
     <div className="p-3 flex flex-col items-center h-full">
       <span className="animate-fade-in opacity-0 delay-300 fill-mode-forwards cursor-pointer">
@@ -24,7 +37,7 @@ export const MinMenu = ({ onShrink, current, onSignOut }: MinMenuProps) => {
           {SIDE_BAR_MENU.map((menu, key) => (
             <MenuItem size="min" {...menu} key={key} current={current} />
           ))}
-          {/* <DomainMenu min domains={domains} /> */}
+          <EntityMenu min />
         </div>
         <div className="flex flex-col">
           <MenuItem
@@ -32,11 +45,6 @@ export const MinMenu = ({ onShrink, current, onSignOut }: MinMenuProps) => {
             label="Sign out"
             icon={<LogOut />}
             onSignOut={onSignOut}
-          />
-          <MenuItem
-            size="min"
-            label="Mobile App"
-            icon={<MonitorSmartphone />}
           />
         </div>
       </div>

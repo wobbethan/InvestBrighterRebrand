@@ -19,6 +19,8 @@ const config = {
     },
     extend: {
       colors: {
+        IBblue: "#3321C8",
+        IBgreen: "#3BC177",
         cream: "#F5F5F5",
         gravel: "#4E4E4E",
         iridium: "#3F3F3F",
