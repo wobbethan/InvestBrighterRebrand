@@ -1,8 +1,12 @@
-import { SIDE_BAR_MENU } from "@/constants/menu";
-import { LogOut, Menu, MonitorSmartphone } from "lucide-react";
+import {
+  INSTRUCTOR_SIDE_BAR_MENU,
+  STUDENT_SIDE_BAR_MENU,
+} from "@/constants/menu";
+import { useUserContextHook } from "@/context/user-info-context";
+import { $Enums } from "@prisma/client";
+import { LogOut, Menu } from "lucide-react";
 import Image from "next/image";
-import React from "react";
-// import DomainMenu from "./domain-menu";
+import EntityMenu from "./entity-menu";
 import MenuItem from "./menu-item";
 
 type Props = {
@@ -12,6 +16,13 @@ type Props = {
 };
 
 const MaxMenu = ({ current, onExpand, onSignOut }: Props) => {
+  const { user } = useUserContextHook();
+  let SIDE_BAR_MENU = STUDENT_SIDE_BAR_MENU;
+  if (user.type === $Enums.AccountTypes.INSTRUCTOR) {
+    SIDE_BAR_MENU = INSTRUCTOR_SIDE_BAR_MENU;
+  } else if (user.type === $Enums.AccountTypes.INVESTOR) {
+    SIDE_BAR_MENU = STUDENT_SIDE_BAR_MENU;
+  }
   return (
     <div className="py-3 px-4 flex flex-col h-full">
       <div className="flex justify-between items-center">
@@ -38,7 +49,7 @@ const MaxMenu = ({ current, onExpand, onSignOut }: Props) => {
           {SIDE_BAR_MENU.map((menu, key) => (
             <MenuItem size="max" {...menu} key={key} current={current} />
           ))}
-          {/* <DomainMenu domains={domains} /> */}
+          <EntityMenu />
         </div>
         <div className="flex flex-col">
           <p className="text-xs text-gray-500 mb-3">OPTIONS</p>
@@ -47,11 +58,6 @@ const MaxMenu = ({ current, onExpand, onSignOut }: Props) => {
             label="Sign out"
             icon={<LogOut />}
             onSignOut={onSignOut}
-          />
-          <MenuItem
-            size="max"
-            label="Mobile App"
-            icon={<MonitorSmartphone />}
           />
         </div>
       </div>

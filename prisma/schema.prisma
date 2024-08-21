@@ -15,9 +15,10 @@ model User {
   createdAt DateTime     @default(now())
   updatedAt DateTime     @updatedAt
   balance   Int          @default(0)
+  image     String?
 
   subscription Subscription?
-  sponsered    Boolean?      @default(false)
+  sponsored    Boolean?      @default(false)
 
   // Section Relations
   sections  Section[] @relation("TeacherSections")
@@ -36,38 +37,41 @@ model User {
 }
 
 model Company {
-  id          String   @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  id          String      @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
   name        String
   description String?
-  createdAt   DateTime @default(now())
-  updatedAt   DateTime @updatedAt
-  balance     Int      @default(0)
-  valuation   Int      @default(0)
-  investments Int      @default(0)
+  createdAt   DateTime    @default(now())
+  updatedAt   DateTime    @updatedAt
+  balance     Int         @default(0)
+  valuation   Int         @default(0)
+  investments Int         @default(0)
+  image       String
+  industry    Industries?
+  public      Boolean?    @default(false)
 
   // User Relations //
 
   //Owner relations
-  owner   User   @relation("ownedCompany", fields: [ownerId], references: [id])
-  ownerId String @unique @db.Uuid
+  owner   User?   @relation("ownedCompany", fields: [ownerId], references: [id])
+  ownerId String? @unique @db.Uuid
 
   //Member relations
   members User[] @relation("memberCompany")
 
   //Section relations
-  section   Section @relation("section", fields: [sectionId], references: [id])
-  sectionId String  @db.Uuid
+  section   Section? @relation("section", fields: [sectionId], references: [id])
+  sectionId String?  @db.Uuid
 }
 
 model Section {
-  id        String @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
-  classCode String @unique
-  name      String
+  id    String @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  name  String
+  image String
 
   // User Relations
-  teacher   User   @relation("TeacherSections", fields: [teacherId], references: [id])
-  teacherId String @db.Uuid
-  students  User[] @relation("StudentSection")
+  teacher   User?   @relation("TeacherSections", fields: [teacherId], references: [id])
+  teacherId String? @db.Uuid
+  students  User[]  @relation("StudentSection")
 
   //Company Relations
   companies Company[] @relation("section")
@@ -101,4 +105,10 @@ enum Roles {
   CTO
   CMO
   CIO
+}
+
+enum Industries {
+  ENGINEERING
+  RETAIL
+  MEDICAL
 }

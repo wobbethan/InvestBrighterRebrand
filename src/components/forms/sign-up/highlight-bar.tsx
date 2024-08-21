@@ -27,7 +27,7 @@ const Bar = ({ active }: { active: boolean }) => {
     <div
       className={cn(
         "rounded-full h-2 col-span-1",
-        active ? "bg-polynesianBlue" : "bg-gray-300"
+        active ? "bg-IBgreen" : "bg-gray-300"
       )}
     />
   );

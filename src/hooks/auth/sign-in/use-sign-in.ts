@@ -34,10 +34,15 @@ export const useSignInForm = () => {
         }
       } catch (error: any) {
         setLoading(false);
-        if (error.errors[0].code === "form_password_incorrect")
+        if (error.errors[0].code === "form_password_incorrect") {
           toast("Error", {
-            description: "There was an issue signing into your account",
+            description: "The password you have entered is incorrect",
           });
+        } else {
+          toast.error("Error", {
+            description: "No account associated with email",
+          });
+        }
       }
     }
   );

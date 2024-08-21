@@ -56,6 +56,9 @@ export const onLoginUser = async () => {
           fullName: true,
           id: true,
           type: true,
+          company: true,
+          section: true,
+          sections: true,
         },
       });
       if (authenticated) {

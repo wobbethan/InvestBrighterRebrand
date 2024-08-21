@@ -9,6 +9,8 @@ import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { onCompleteUserRegistration } from "@/actions/auth/auth";
+import { $Enums } from "@prisma/client";
+import { toast } from "sonner";
 
 export const useSignUpForm = () => {
   const [loading, setLoading] = useState<boolean>(false);
@@ -25,8 +27,9 @@ export const useSignUpForm = () => {
     onNext: React.Dispatch<React.SetStateAction<number>>
   ) => {
     if (!isLoaded) return;
-
     try {
+      console.log({ email, password });
+
       await signUp.create({
         emailAddress: email,
         password: password,
@@ -36,7 +39,14 @@ export const useSignUpForm = () => {
 
       onNext((prev) => prev + 1);
     } catch (error: any) {
-      console.log(error);
+      if (error.errors) {
+        error.errors.forEach((err: any) => {
+          console.error(`Error: ${err.message}, Code: ${err.code}`);
+        });
+      }
+      toast.error("Error", {
+        description: error.errors[0].message,
+      });
     }
   };
 
