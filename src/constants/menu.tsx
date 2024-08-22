@@ -35,11 +35,7 @@ export const INSTRUCTOR_SIDE_BAR_MENU: SIDE_BAR_MENU_PROPS[] = [
     icon: <CalIcon />,
     path: "appointment",
   },
-  {
-    label: "Settings",
-    icon: <SettingsIcon />,
-    path: "settings",
-  },
+
   {
     label: "Announcements",
     icon: <EmailIcon />,
@@ -62,11 +58,6 @@ export const STUDENT_SIDE_BAR_MENU: SIDE_BAR_MENU_PROPS[] = [
     label: "Integrations",
     icon: <IntegrationsIcon />,
     path: "integration",
-  },
-  {
-    label: "Settings",
-    icon: <SettingsIcon />,
-    path: "settings",
   },
   {
     label: "Appointments",

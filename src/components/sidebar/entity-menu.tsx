@@ -11,6 +11,7 @@ import Link from "next/link";
 import Image from "next/image";
 import { $Enums } from "@prisma/client";
 import { useUserContextHook } from "@/context/user-info-context";
+import { Separator } from "@/components/ui/separator";
 
 import { Spinner } from "../spinner";
 import dynamic from "next/dynamic";
@@ -41,7 +42,7 @@ const CreateSectionForm = dynamic(
 );
 
 const EntityMenu = ({ min }: Props) => {
-  const { user } = useUserContextHook();
+  const { user, loading } = useUserContextHook();
   return (
     <div className={cn("flex flex-col gap-3", min ? "mt-6" : "mt-3")}>
       <div
@@ -59,39 +60,43 @@ const EntityMenu = ({ min }: Props) => {
               : "Companies"}
           </p>
         )}
-        {!user.companyId && (
-          <AppDrawer
-            title={
-              user.type === student
-                ? "Create Company"
-                : user.type === instructor
-                ? "Sections"
-                : "Companies"
-            }
-            description={
-              user.type === student
-                ? "Enter your company's name and logo"
-                : user.type === instructor
-                ? "Sections"
-                : "Companies"
-            }
-            onOpen={
-              <div className="cursor-pointer text-gray-500 rounded-full border-2 flex justify-center items-center">
-                <Plus />
+        <Loader loading={loading}>
+          {!user.companyId ? (
+            <AppDrawer
+              title={
+                user.type === student
+                  ? "Create Company"
+                  : user.type === instructor
+                  ? "Sections"
+                  : "Companies"
+              }
+              description={
+                user.type === student
+                  ? "Enter your company's name and logo"
+                  : user.type === instructor
+                  ? "Enter your section's name and icon"
+                  : "Companies"
+              }
+              onOpen={
+                <div className="cursor-pointer text-gray-500 rounded-full border-2 flex justify-center items-center">
+                  <Plus />
+                </div>
+              }
+            >
+              <div className="min-h-[202px] flex w-full items-center justify-center">
+                {user.type === student ? (
+                  <CreateCompanyForm />
+                ) : user.type === instructor ? (
+                  <CreateSectionForm />
+                ) : (
+                  "Investor"
+                )}
               </div>
-            }
-          >
-            <div className="min-h-[202px] flex w-full items-center justify-center">
-              {user.type === student ? (
-                <CreateCompanyForm />
-              ) : user.type === instructor ? (
-                <CreateSectionForm />
-              ) : (
-                "Investor"
-              )}
-            </div>
-          </AppDrawer>
-        )}
+            </AppDrawer>
+          ) : (
+            <Separator />
+          )}
+        </Loader>
       </div>
       <EntityList min={min} />
     </div>

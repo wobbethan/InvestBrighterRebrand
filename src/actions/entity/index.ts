@@ -79,14 +79,15 @@ export const onIntegrateSection = async (name: string, image: string) => {
       (subscription?.subscription?.plan == $Enums.Plans.FREE &&
         subscription._count.sections < 2) ||
       (subscription?.subscription?.plan == $Enums.Plans.PRO &&
-        subscription._count.sections < 5)
+        subscription._count.sections < 5) ||
+      subscription?.subscription?.plan == $Enums.Plans.UNLIMITED
     ) {
       const newDomain = await client.user.update({
         where: {
           clerkId: user.id,
         },
         data: {
-          section: {
+          sections: {
             create: {
               name,
               image,
@@ -98,12 +99,13 @@ export const onIntegrateSection = async (name: string, image: string) => {
       if (newDomain) {
         return { status: 200, message: "Section successfully created" };
       }
+    } else {
+      return {
+        status: 400,
+        message:
+          "You've reached the maximum number of sections, please upgrade your plan",
+      };
     }
-    return {
-      status: 400,
-      message:
-        "You've reached the maximum number of sections, please upgrade your plan",
-    };
   } catch (error) {
     console.log(error);
     return {
@@ -125,15 +127,7 @@ export const onGetAllAccountSections = async () => {
       },
       select: {
         id: true,
-        sections: {
-          select: {
-            id: true,
-            image: true,
-            name: true,
-            students: true,
-            companies: true,
-          },
-        },
+        sections: true,
       },
     });
     return { status: 200, message: "Sections returned", sections: sections };
@@ -164,6 +158,30 @@ export const onGetAccountCompany = async () => {
     };
   } catch (error) {
     console.log(error);
-    return { status: 400, message: "Error getting company for account" };
+    return { status: 400, message: "Error getting account's company" };
+  }
+};
+
+export const onGetSection = async (sectionId: string) => {
+  try {
+    const section = await client.section.findUnique({
+      where: {
+        id: sectionId,
+      },
+    });
+    if (section) {
+      return {
+        status: 200,
+        message: "Section returned",
+        section: section,
+      };
+    }
+    return {
+      status: 400,
+      message: "Section not found",
+    };
+  } catch (error) {
+    console.log(error);
+    return { status: 400, message: "Error getting section information" };
   }
 };

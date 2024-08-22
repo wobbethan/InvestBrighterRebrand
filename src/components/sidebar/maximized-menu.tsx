@@ -8,6 +8,8 @@ import { LogOut, Menu } from "lucide-react";
 import Image from "next/image";
 import EntityMenu from "./entity-menu";
 import MenuItem from "./menu-item";
+import Link from "next/link";
+import SettingsIcon from "@/icons/settings-icon";
 
 type Props = {
   current: string;
@@ -53,6 +55,8 @@ const MaxMenu = ({ current, onExpand, onSignOut }: Props) => {
         </div>
         <div className="flex flex-col">
           <p className="text-xs text-gray-500 mb-3">OPTIONS</p>
+          <MenuItem size="max" label="Settings" icon={<SettingsIcon />} />
+
           <MenuItem
             size="max"
             label="Sign out"

@@ -13,6 +13,7 @@ import { FieldValues, useForm } from "react-hook-form";
 import { UploadClient } from "@uploadcare/upload-client";
 import {
   onGetAccountCompany,
+  onGetSection,
   onIntegrateCompany,
   onIntegrateSection,
 } from "@/actions/entity";
@@ -108,15 +109,22 @@ export const useSection = () => {
     }
     const uploaded = await upload.uploadFile(values.image[0]);
     const section = await onIntegrateSection(values.section, uploaded.uuid);
-    if (section) {
+    console.log(section);
+    if (section?.status === 200) {
       reset();
       setLoading(false);
-      toast("MESSAGE", {
+      toast("Success", {
         description: section.message,
       });
       router.refresh();
+    } else {
+      setLoading(false);
+      toast("Error", {
+        description: section?.message,
+      });
     }
   });
+
   return {
     register,
     onAddSection,

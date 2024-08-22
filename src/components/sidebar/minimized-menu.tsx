@@ -12,6 +12,8 @@ import MenuItem from "./menu-item";
 import EntityMenu from "./entity-menu";
 import { $Enums } from "@prisma/client";
 import { useUserContextHook } from "@/context/user-info-context";
+import Link from "next/link";
+import SettingsIcon from "@/icons/settings-icon";
 
 type MinMenuProps = {
   onShrink(): void;
@@ -39,7 +41,8 @@ export const MinMenu = ({ onShrink, current, onSignOut }: MinMenuProps) => {
           ))}
           <EntityMenu min />
         </div>
-        <div className="flex flex-col">
+        <div className="flex flex-col gap-0">
+          <MenuItem size="min" label="Settings" icon={<SettingsIcon />} />
           <MenuItem
             size="min"
             label="Sign out"

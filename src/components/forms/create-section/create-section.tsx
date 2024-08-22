@@ -15,7 +15,7 @@ const CreateSectionForm = (props: Props) => {
         <FormGenerator
           inputType="input"
           register={register}
-          name="Section"
+          name="section"
           label="Section"
           errors={errors}
           placeholder="Monday Class"
