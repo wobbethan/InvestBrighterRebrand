@@ -47,7 +47,6 @@ export const useCompany = () => {
 
   const onAddCompany = handleSubmit(async (values: FieldValues) => {
     setLoading(true);
-    console.log(values.company);
     const uploaded = await upload.uploadFile(values.image[0]);
 
     const company = await onIntegrateCompany(values.company, uploaded.uuid);

@@ -1,7 +1,7 @@
 "use client";
 import { Label } from "@/components/ui/label";
 import React from "react";
-import { FieldValues, UseFormRegister } from "react-hook-form";
+import { FieldValues, useFormContext, UseFormRegister } from "react-hook-form";
 import { client } from "../../../lib/prisma";
 import { cn } from "@/lib/utils";
 import { Card, CardContent, CardDescription } from "@/components/ui/card";
@@ -29,7 +29,7 @@ const UserTypeCard = ({
   value,
   numSteps,
 }: Props) => {
-  const { setNumSteps } = useAuthContextHook();
+  const { setNumSteps, setType } = useAuthContextHook();
   return (
     <Label htmlFor={value}>
       <Card
@@ -70,7 +70,10 @@ const UserTypeCard = ({
             >
               <Input
                 {...register("type", {
-                  onChange: (event) => setUserType(event.target.value),
+                  onChange: (event) => {
+                    setUserType(event.target.value);
+                    setType(event.target.value);
+                  },
                 })}
                 value={value}
                 id={value}

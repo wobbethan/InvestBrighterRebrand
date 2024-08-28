@@ -56,7 +56,6 @@ const MaxMenu = ({ current, onExpand, onSignOut }: Props) => {
         <div className="flex flex-col">
           <p className="text-xs text-gray-500 mb-3">OPTIONS</p>
           <MenuItem size="max" label="Settings" icon={<SettingsIcon />} />
-
           <MenuItem
             size="max"
             label="Sign out"

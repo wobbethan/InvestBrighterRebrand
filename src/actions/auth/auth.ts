@@ -61,9 +61,13 @@ export const onLoginUser = async () => {
           sections: true,
         },
       });
+      console.log("problem");
+
       if (authenticated) {
         return { status: 200, user: authenticated };
       }
-    } catch (error) {}
+    } catch (error) {
+      console.log("problem");
+    }
   }
 };

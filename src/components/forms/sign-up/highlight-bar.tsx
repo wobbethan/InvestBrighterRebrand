@@ -7,29 +7,29 @@ import React from "react";
 type Props = {};
 
 const HighlightBar = (props: Props) => {
-  const { currentStep, numSteps } = useAuthContextHook();
-  return (
-    <div
-      className={clsx(
-        `grid gap-3`,
-        numSteps === 4 ? "grid-cols-4" : "grid-cols-3"
-      )}
-    >
-      {Array.from({ length: numSteps }, (_, index) => (
-        <Bar key={index} active={index < currentStep} />
-      ))}
-    </div>
-  );
-};
+  const { currentStep } = useAuthContextHook();
 
-const Bar = ({ active }: { active: boolean }) => {
   return (
-    <div
-      className={cn(
-        "rounded-full h-2 col-span-1",
-        active ? "bg-IBgreen" : "bg-gray-300"
-      )}
-    />
+    <div className="grid grid-cols-3 gap-3">
+      <div
+        className={cn(
+          "rounded-full h-2 col-span-1",
+          currentStep == 1 ? "bg-IBblue" : "bg-platinum"
+        )}
+      ></div>
+      <div
+        className={cn(
+          "rounded-full h-2 col-span-1",
+          currentStep == 2 ? "bg-IBblue" : "bg-platinum"
+        )}
+      ></div>
+      <div
+        className={cn(
+          "rounded-full h-2 col-span-1",
+          currentStep == 3 ? "bg-IBblue" : "bg-platinum"
+        )}
+      ></div>
+    </div>
   );
 };
 

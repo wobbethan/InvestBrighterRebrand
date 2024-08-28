@@ -1,5 +1,7 @@
 import {
   onDeleteSectionServer,
+  onUpdateSectionBools,
+  onUpdateSectionDescription,
   onUpdateSectionName,
 } from "@/actions/entity/settings";
 import {
@@ -19,20 +21,42 @@ export const useSectionSettings = (id: string) => {
     handleSubmit,
     formState: { errors },
     reset,
+    control,
   } = useForm<SectionSettingsProps>({
     resolver: zodResolver(SectionSettingsSchema),
   });
 
   const onUpdateSettings = handleSubmit(async (values) => {
+    setLoading(true);
+    //Name update
     if (values.section) {
       const updatedName = await onUpdateSectionName(id, values.section);
       if (updatedName) {
-        updatedName.status === 200
-          ? toast("Success", { description: updatedName.message })
-          : toast("Error", { description: updatedName.message });
+        updatedName.status !== 200 &&
+          toast("Error", { description: updatedName.message });
       }
     }
+    //Description update
+    if (values.description) {
+      const updatedDescription = await onUpdateSectionDescription(
+        id,
+        values.description
+      );
+      if (updatedDescription) {
+        updatedDescription.status !== 200 &&
+          toast("Error", { description: updatedDescription.message });
+      }
+    }
+    //Boolean updates
+    const updateSectionBooleans = await onUpdateSectionBools(id, values);
+    if (updateSectionBooleans) {
+      updateSectionBooleans.status !== 200 &&
+        toast("Error", { description: updateSectionBooleans.message });
+    }
+    setLoading(false);
+    toast("Success", { description: "Section settings updated" });
   });
+
   const onDeleteSection = async () => {
     setDeleting(true);
     const deleted = await onDeleteSectionServer(id);
@@ -51,5 +75,6 @@ export const useSectionSettings = (id: string) => {
     onUpdateSettings,
     deleting,
     onDeleteSection,
+    control,
   };
 };

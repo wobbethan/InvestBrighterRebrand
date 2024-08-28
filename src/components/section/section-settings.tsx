@@ -5,13 +5,18 @@ import { Separator } from "../ui/separator";
 import FormGenerator from "../forms/form-generator";
 import { Button } from "../ui/button";
 import Loader from "../loader";
+import { Card, CardDescription, CardTitle } from "../ui/card";
+import { Section } from "@prisma/client";
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import Image from "next/image";
+import UploadButton from "../upload-button";
 
 type Props = {
   id: string;
-  name: string;
+  section: Section;
 };
 
-const SectionSettingsForm = ({ id, name }: Props) => {
+const SectionSettingsForm = ({ id, section }: Props) => {
   const {
     register,
     errors,
@@ -19,58 +24,111 @@ const SectionSettingsForm = ({ id, name }: Props) => {
     onUpdateSettings,
     onDeleteSection,
     deleting,
+    control,
   } = useSectionSettings(id);
+
   return (
     <form className="flex flex-col gap-8 pb-10" onSubmit={onUpdateSettings}>
       <div className="flex flex-col gap-3">
-        <h2 className="font-bold text-2xl">Section Settings</h2>
-        <Separator orientation="horizontal" />
-        <div className="flex gap-2 pt-5 items-end w-[400px]">
-          <FormGenerator
-            label="Section name"
-            register={register}
-            name="section"
-            errors={errors}
-            type="text"
-            inputType="input"
-            placeholder={name}
-          />
+        <h2 className="font-bold text-xl">Section Details</h2>
+        <div className="flex flex-col md:flex-row gap-5 pt-5 items-start">
+          <div>
+            <Image
+              src={`https://ucarecdn.com/${section.image}/`}
+              alt="Section image"
+              width={200}
+              height={200}
+            />
+          </div>
+          <div className="flex flex-row gap-5 items-start ">
+            <FormGenerator
+              label="Section name"
+              register={register}
+              name="section"
+              errors={errors}
+              type="text"
+              inputType="input"
+              placeholder={section.name}
+            />
+            <FormGenerator
+              label="Section description"
+              register={register}
+              name="description"
+              errors={errors}
+              type="text"
+              inputType="textarea"
+              placeholder={section.description}
+            />
+          </div>
+        </div>
+        <Separator orientation="horizontal" className="my-5" />
+        <h2 className="font-bold text-xl">Section Privacy</h2>
+        <div className="flex gap-10 pt-5">
+          <Card className="flex md:flex-row flex-col gap-5 items-center justify-between rounded-lg border p-4">
+            <div className="space-y-0.5">
+              <CardTitle className="text-base">Anonymous Investing</CardTitle>
+              <CardDescription>
+                All investments for this section will be anonymous
+              </CardDescription>
+            </div>
+            <div>
+              <FormGenerator
+                register={register}
+                name="anonymous"
+                errors={errors}
+                type="bool"
+                inputType="switch"
+                checked={section.anonymous}
+                control={control}
+              />
+            </div>
+          </Card>
+          <Card className="flex md:flex-row flex-col gap-5 items-center justify-between rounded-lg border p-4">
+            <div className="space-y-0.5">
+              <CardTitle className="text-base">Public Accounts</CardTitle>
+              <CardDescription>
+                Student companies will have the option to be visible to
+                real-world investors
+              </CardDescription>
+            </div>
+            <div>
+              <FormGenerator
+                register={register}
+                name="public"
+                errors={errors}
+                type="bool"
+                inputType="switch"
+                checked={section.public}
+                control={control}
+              />
+            </div>
+          </Card>
+        </div>
+        <Separator orientation="horizontal" className="my-5" />
+        <h2 className="font-bold text-xl">Investment settings</h2>
+        <div className="flex gap-10 pt-5 items-end">
+          <Card className="flex md:flex-row flex-col gap-5 items-center justify-between rounded-lg border p-4">
+            <div className="space-y-0.5">
+              <CardTitle className="text-base">Investment Limit</CardTitle>
+              <CardDescription>
+                Set a limit on the maximum number of investments a company can
+                receive
+              </CardDescription>
+            </div>
+            <div>
+              <FormGenerator
+                register={register}
+                name="maxInvestments"
+                errors={errors}
+                type="bool"
+                inputType="switch"
+                checked={section.maxInvestments}
+                control={control}
+              />
+            </div>
+          </Card>
         </div>
       </div>
-      {/* {plan === "PRO" || plan === "ULTIMATE"} */}
-      {/* <div className="flex flex-col mt-5 gap-3">
-        <div className="flex gap-4 items-center">
-          <h2 className="font-bold text-2xl">Chatbot Settings</h2>
-          <div className="flex gap-1 bg-cream rounded-full px-3 py-1 text-xs items-center font-bold">
-            <PremiumBadge />
-            Premium
-          </div>
-        </div>
-        <Separator orientation="horizontal" />
-        <div className="grid md:grid-cols-2">
-          <div className="col-span-1 flex flex-col gap-5 order-last md:order-first">
-            <EditChatbotIcon
-              chatBot={chatBot}
-              register={register}
-              errors={errors}
-            />
-            <WelcomeMessage
-              message={chatBot?.welcomeMessage!}
-              register={register}
-              errors={errors}
-            />
-          </div>
-          <div className="col-span-1 relative ">
-            <Image
-              src="/images/bot-ui.png"
-              className="sticky top-0"
-              alt="bot-ui"
-              width={530}
-              height={769}
-            />
-          </div>{" "}
-        </div>
-      </div> */}
       <div className="flex gap-5 justify-end">
         <Button
           onClick={onDeleteSection}
@@ -80,7 +138,10 @@ const SectionSettingsForm = ({ id, name }: Props) => {
         >
           <Loader loading={deleting}>Delete Section</Loader>
         </Button>
-        <Button type="submit" className="w-[100px] h-[50px]">
+        <Button
+          type="submit"
+          className="w-[100px] h-[50px] bg-IBgreen hover:bg-IBgreen"
+        >
           <Loader loading={loading}>Save</Loader>
         </Button>
       </div>

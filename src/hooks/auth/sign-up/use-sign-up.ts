@@ -79,13 +79,20 @@ export const useSignUpForm = () => {
             });
 
             setLoading(false);
-            router.push("/dashboard");
-          }
-
-          if (registered?.status == 400) {
+            router.push("/join");
           }
         }
-      } catch (error: any) {}
+      } catch (error: any) {
+        setLoading(false);
+        if (error.errors) {
+          error.errors.forEach((err: any) => {
+            console.error(`Error: ${err.message}, Code: ${err.code}`);
+          });
+        }
+        toast.error("Error", {
+          description: error.errors[0].message,
+        });
+      }
     }
   );
   return {

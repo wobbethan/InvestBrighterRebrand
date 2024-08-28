@@ -2,6 +2,7 @@
 
 import { client } from "@/lib/prisma";
 import { currentUser } from "@clerk/nextjs";
+import { FieldValues } from "react-hook-form";
 
 export const onUpdateSectionName = async (id: string, updatedName: string) => {
   try {
@@ -10,11 +11,49 @@ export const onUpdateSectionName = async (id: string, updatedName: string) => {
       data: { name: updatedName },
     });
     if (domain) {
-      return { status: 200, message: "Domain updated" };
+      return { status: 200, message: "Section name updated" };
     }
     return {
       status: 400,
       message: "Error updating name!",
+    };
+  } catch (error) {}
+};
+
+export const onUpdateSectionDescription = async (
+  id: string,
+  updatedDescription: string
+) => {
+  try {
+    const domain = await client.section.update({
+      where: { id },
+      data: { description: updatedDescription },
+    });
+    if (domain) {
+      return { status: 200, message: "Description updated" };
+    }
+    return {
+      status: 400,
+      message: "Error updating description!",
+    };
+  } catch (error) {}
+};
+export const onUpdateSectionBools = async (id: string, values: FieldValues) => {
+  try {
+    const domain = await client.section.update({
+      where: { id },
+      data: {
+        public: values.public,
+        anonymous: values.anonymous,
+        maxInvestments: values.maxInvestments,
+      },
+    });
+    if (domain) {
+      return { status: 200, message: "Booleans updated" };
+    }
+    return {
+      status: 400,
+      message: "Error updating settings!",
     };
   } catch (error) {}
 };

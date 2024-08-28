@@ -21,18 +21,13 @@ export const INSTRUCTOR_SIDE_BAR_MENU: SIDE_BAR_MENU_PROPS[] = [
     path: "dashboard",
   },
   {
-    label: "Conversations",
-    icon: <ChatIcon />,
-    path: "conversation",
-  },
-  {
     label: "Investment Rounds",
-    icon: <IntegrationsIcon />,
+    icon: <CalIcon />,
     path: "integration",
   },
   {
     label: "Round Profiles",
-    icon: <CalIcon />,
+    icon: <IntegrationsIcon />,
     path: "appointment",
   },
 
@@ -48,11 +43,6 @@ export const STUDENT_SIDE_BAR_MENU: SIDE_BAR_MENU_PROPS[] = [
     label: "Dashboard",
     icon: <DashboardIcon />,
     path: "dashboard",
-  },
-  {
-    label: "Conversations",
-    icon: <ChatIcon />,
-    path: "conversation",
   },
   {
     label: "Integrations",

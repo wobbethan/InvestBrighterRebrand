@@ -15,7 +15,7 @@ model User {
   createdAt DateTime     @default(now())
   updatedAt DateTime     @updatedAt
   balance   Int          @default(0)
-  image     String?
+  image     String?      @default("/images/default-avatar.png")
 
   subscription Subscription?
   sponsored    Boolean?      @default(false)
@@ -28,8 +28,7 @@ model User {
   // Company Relations //
 
   //Owning a company
-  companyRole  Roles?
-  ownedCompany Company? @relation("ownedCompany")
+  companyRole Roles?
 
   //Member of company
   company   Company? @relation("memberCompany", fields: [companyId], references: [id])
@@ -51,10 +50,6 @@ model Company {
 
   // User Relations //
 
-  //Owner relations
-  owner   User?   @relation("ownedCompany", fields: [ownerId], references: [id])
-  ownerId String? @unique @db.Uuid
-
   //Member relations
   members User[] @relation("memberCompany")
 
@@ -64,11 +59,14 @@ model Company {
 }
 
 model Section {
-  id        String   @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
-  name      String
-  image     String
-  public    Boolean? @default(false)
-  anonymous Boolean? @default(false)
+  id                String   @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  name              String
+  image             String
+  description       String?
+  public            Boolean? @default(false)
+  anonymous         Boolean? @default(true)
+  maxInvestments    Boolean? @default(false)
+  maxNumInvestments Int?     @default(20)
 
   // User Relations
   teacher   User?   @relation("TeacherSections", fields: [teacherId], references: [id])

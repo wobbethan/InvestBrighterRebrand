@@ -37,7 +37,7 @@ export const onIntegrateCompany = async (name: string, image: string) => {
       });
 
       if (newCompany) {
-        return { status: 200, message: "Domain successfully added" };
+        return { status: 200, message: "Company successfully created" };
       }
     }
     return {
