@@ -45,6 +45,7 @@ const SectionSettingsPage = async ({ params }: Props) => {
           <AvatarImage
             src={`https://ucarecdn.com/${section.image}/`}
             width={50}
+            height={50}
           />
           <AvatarFallback></AvatarFallback>
         </Avatar>
