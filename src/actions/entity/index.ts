@@ -15,9 +15,10 @@ export const onIntegrateCompany = async (name: string, image: string) => {
       },
       select: {
         companyId: true,
+        sectionId: true,
       },
     });
-    console.log(companyExists);
+
     if (!companyExists?.companyId) {
       const newCompany = await client.user.update({
         where: {
@@ -31,6 +32,9 @@ export const onIntegrateCompany = async (name: string, image: string) => {
               valuation: 0,
               investments: 0,
               image,
+              section: {
+                connect: { id: companyExists!.sectionId! },
+              },
             },
           },
         },
@@ -80,7 +84,7 @@ export const onIntegrateSection = async (name: string, image: string) => {
         subscription._count.sections < 2) ||
       (subscription?.subscription?.plan == $Enums.Plans.PRO &&
         subscription._count.sections < 5) ||
-      subscription?.subscription?.plan == $Enums.Plans.UNLIMITED
+      subscription?.subscription?.plan == $Enums.Plans.ULTIMATE
     ) {
       const newDomain = await client.user.update({
         where: {
@@ -147,7 +151,6 @@ export const onGetAccountCompany = async () => {
       },
       select: {
         id: true,
-        ownedCompany: { select: { id: true } },
         company: true,
       },
     });
@@ -167,6 +170,10 @@ export const onGetSection = async (sectionId: string) => {
     const section = await client.section.findUnique({
       where: {
         id: sectionId,
+      },
+      include: {
+        students: true,
+        companies: true,
       },
     });
     if (section) {

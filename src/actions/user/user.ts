@@ -11,6 +11,7 @@ export const onGetUserInfo = async () => {
     try {
       const userInfo = await client.user.findUnique({
         where: { clerkId: user.id },
+        include: { subscription: true },
       });
       if (userInfo) {
         return { status: 200, user: userInfo };

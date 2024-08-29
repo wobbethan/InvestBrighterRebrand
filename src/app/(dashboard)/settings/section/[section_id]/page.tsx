@@ -13,28 +13,31 @@ import { Separator } from "@/components/ui/separator";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import LinkSnippet from "@/components/section/link-snippet";
 
+const SectionSettingsForm = dynamic(
+  () => import("@/components/section/section-settings"),
+  {
+    ssr: false,
+    loading: () => <Spinner />,
+  }
+);
+const SectionDetails = dynamic(
+  () => import("@/components/section/section-details"),
+  {
+    ssr: false,
+    loading: () => <Spinner />,
+  }
+);
+
 type Props = { params: { section_id: string } };
 
 const SectionSettingsPage = async ({ params }: Props) => {
   const user = (await onGetUserInfo())?.user;
   const section = (await onGetSection(params.section_id)).section;
-  const SectionSettingsForm = dynamic(
-    () => import("@/components/section/section-settings"),
-    {
-      ssr: false,
-      loading: () => <Spinner />,
-    }
-  );
-  const SectionDetails = dynamic(
-    () => import("@/components/section/section-details"),
-    {
-      ssr: false,
-      loading: () => <Spinner />,
-    }
-  );
+  const plan = user?.subscription?.plan;
   //todo early return if user does not own section
   if (!section) return <SectionNotFound />;
   if (section?.teacherId !== user?.id) return <AccessDenied />;
+
   return (
     <div className="flex flex-col gap-3">
       <div className="flex flex-row gap-3 items-center">
@@ -49,16 +52,16 @@ const SectionSettingsPage = async ({ params }: Props) => {
         <LinkSnippet id={section.id} type="section" />
       </div>
       <Tabs defaultValue="overview" className="my-5">
-        <TabsList>
+        <TabsList className="!rounded-bl-[0px] !rounded-br-[0px] !bg-border">
           <TabsTrigger value="overview">Overview</TabsTrigger>
           <TabsTrigger value="settings">Settings</TabsTrigger>
         </TabsList>
-        <Separator orientation="horizontal" />
-        <TabsContent value="overview">
-          <SectionDetails section={section!} />
+        <Separator orientation="horizontal" className="!h-[2px]" />
+        <TabsContent value="overview" className="!p-5  border-2 !m-0">
+          <SectionDetails section={section} plan={plan!} />
         </TabsContent>
-        <TabsContent value="settings">
-          <SectionSettingsForm id={section!.id} section={section!} />
+        <TabsContent value="settings" className="!p-5  border-2 !m-0">
+          <SectionSettingsForm id={section.id} section={section} />
         </TabsContent>
       </Tabs>
     </div>

@@ -31,7 +31,7 @@ const InstructorDashboard = async (props: Props) => {
         <div className=""></div>
       </div>
       {/* Right */}
-      <div className="w-full lg:w-1/3">r</div>
+      <div className="w-full lg:w-1/3"></div>
     </div>
   );
 };

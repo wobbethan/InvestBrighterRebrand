@@ -78,17 +78,18 @@ model Section {
 }
 
 model Subscription {
-  id     String  @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
-  plan   Plans   @default(STUDENT)
-  User   User?   @relation(fields: [userId], references: [id], onDelete: Cascade)
-  userId String? @unique @db.Uuid
+  id        String   @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  plan      Plans    @default(STUDENT)
+  User      User?    @relation(fields: [userId], references: [id], onDelete: Cascade)
+  userId    String?  @unique @db.Uuid
+  sponsored Boolean? @default(false)
 }
 
 enum Plans {
   STUDENT
   FREE
   PRO
-  UNLIMITED
+  ULTIMATE
   INVESTOR
 }
 
@@ -108,7 +109,16 @@ enum Roles {
 }
 
 enum Industries {
-  ENGINEERING
+  TECHNOLOGY
+  HEALTHCARE
+  FINANCE
   RETAIL
-  MEDICAL
+  MANUFACTURING
+  ENERGY
+  TRANSPORTATION
+  ENTERTAINMENT
+  EDUCATION
+  AUTOMOTIVE
+  TELECOMMUNICATIONS
+  OTHER
 }

@@ -30,7 +30,7 @@ const SectionSettingsForm = ({ id, section }: Props) => {
   return (
     <form className="flex flex-col gap-8 pb-10" onSubmit={onUpdateSettings}>
       <div className="flex flex-col gap-3">
-        <h2 className="font-bold text-xl">Section Details</h2>
+        <h2 className="font-bold text-xl">Section Settings</h2>
         <div className="flex flex-col md:flex-row gap-5 pt-5 items-start">
           <div>
             <Image
